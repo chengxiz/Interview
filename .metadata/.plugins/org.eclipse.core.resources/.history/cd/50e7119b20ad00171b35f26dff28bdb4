@@ -1,0 +1,35 @@
+package Challenge;
+import java.io.*;
+
+public class Solution {
+	public static int[] findPattern(int N, int K, int[] price){
+		return price;
+	}
+	public static void main(String[] args) throws IOException {
+		// we assume that the input.txt is located in the same directory of this Solution.java file
+		InputStream inputstream = new FileInputStream("./src/Challenge/input.txt");
+		@SuppressWarnings("resource")
+		BufferedReader reader=new BufferedReader(new InputStreamReader(inputstream));
+		if(reader.ready()){
+			String[] line = reader.readLine().split(" ");
+			int N = Integer.valueOf(line[0]);
+			int K = Integer.valueOf(line[1]);
+			line = reader.readLine().split(" ");
+			int i = 0;
+			int[] price = new int[line.length];
+			while (i < line.length){
+				price[i] = Integer.valueOf(line[i]);
+				System.out.println(line[i++]);
+			}
+			int[] result = findPattern(N, K, price);
+			OutputStream output = new BufferedOutputStream(new FileOutputStream("./src/Challenge/output.txt"));
+			for (int j = 0; j < price.length; j++){
+				output.write((String.valueOf(price[j])+"\\s").getBytes());
+			}
+			output.close();
+			
+			
+		}
+		
+	}
+}

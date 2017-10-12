@@ -1,0 +1,38 @@
+package Challenge;
+
+import java.util.HashSet;
+
+
+public class Test {
+    public static int[] findLengthOfLCIS(int[] nums) {
+        if (nums == null || nums.length == 0) {
+
+        	return new int[] {0, 0};
+        }
+        int n = nums.length;
+        int[] dpInc = new int[n];
+        int[] dpDec = new int[n];
+        
+        int maxInc = 1;
+        int maxDec = 1;
+        dpInc[0] = 1;
+        for (int i = 1; i < n; i++) {
+            if (nums[i] > nums[i - 1]) {
+                dpInc[i] = dpInc[i - 1] + 1;
+                dpDec[i] = 1;
+            }
+            else {
+                dpInc[i] = 1;
+                dpDec[i] = dpDec[i - 1] + 1;
+            }
+            maxInc = Math.max(maxInc, dpInc[i]);
+            maxDec = Math.max(maxDec, dpDec[i]);
+        }
+        
+        return new int[] {maxInc, maxDec};
+    }
+	public static void main(String[] args) {
+		int arr[] =  {18, 19, 20, 21, 15, 16, 18};
+		System.out.println(findLengthOfLCIS(arr));
+	}
+}

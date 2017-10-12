@@ -1,0 +1,73 @@
+package Challenge;
+
+import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.Queue;
+
+public class Test {
+	public class subRange{
+		public int start;	// start index of the subRange
+		public int end;	// end index of the endRange
+		public int length;
+		public subRange(int s, int d){
+			start = s;
+			end = d;
+			length = d - s;
+		}
+	}
+    public static void findLengthOfLCIS(int[] nums) {
+        if (nums == null || nums.length == 0) {
+
+        	return ;
+        }
+        int n = nums.length;
+        int[] dpInc = new int[n];
+        int[] dpDec = new int[n];
+        Queue<subRange> queueInc = new PriorityQueue<subRange>();
+        Queue<subRange> queueDec = new PriorityQueue<subRange>();
+        
+        int maxInc = 1;
+        int maxDec = 1;
+        dpInc[0] = 1;
+        dpDec[0] = 1;
+        int startInc = 0;
+        int endInc = 0;
+        int startDec = 0;
+        int endDec = 0;
+        for (int i = 1; i < n; i++) {
+            if (nums[i] > nums[i - 1]) {
+                dpInc[i] = dpInc[i - 1] + 1;
+                dpDec[i] = 1;
+                if (dpInc[i - 1] == 1) {  
+                	endDec = i -1;
+                	queueDec.add(new subRange(startDec, endDec));             	
+                	startInc = i - 1;
+                }
+            }
+            else {
+                dpInc[i] = 1;
+                if (dpInc[i - 1] != 1){
+                	endInc = i - 1;
+                	queueInc.add(new subRange(startInc, endInc));
+                	endDec = i - 1;
+                }
+                dpDec[i] = dpDec[i - 1] + 1;
+            }
+            maxInc = Math.max(maxInc, dpInc[i]);
+            maxDec = Math.max(maxDec, dpDec[i]);
+        }        
+        
+    }
+	public static void main(String[] args) {
+		int arr[] =  {18, 19, 20, 21, 15, 16, 18};
+		int N = arr.length;
+		int K = 5;
+		for (int i = 0; i < N - K + 1; i++){
+			int[] sub = Arrays.copyOfRange(arr, i, i+K-1);
+			int[] answer = findLengthOfLCIS(sub);
+			System.out.println(answer[0]+" "+answer[1]);
+		}
+
+	}
+
+}

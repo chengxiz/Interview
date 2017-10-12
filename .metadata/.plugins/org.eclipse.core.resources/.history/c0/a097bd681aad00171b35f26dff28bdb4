@@ -1,0 +1,16 @@
+package Challenge;
+import java.io.*;
+
+public class Solution {
+	public static void main(String[] args) throws IOException {
+		String current = new java.io.File( "." ).getCanonicalPath();
+        System.out.println("Current dir:"+current);
+		// we assume that the input.txt is located in the same directory of this Solution.java file
+		InputStream inputstream = new FileInputStream("./scr/Challenge/input.txt");
+		BufferedReader reader=new BufferedReader(new InputStreamReader(inputstream));
+		while(reader.ready()){
+			String line = reader.readLine();
+			System.out.println(line);
+		}
+	}
+}

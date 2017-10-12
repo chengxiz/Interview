@@ -1,0 +1,22 @@
+package Challenge;
+import java.io.*;
+
+public class Solution {
+	public static void main(String[] args) throws IOException {
+		// we assume that the input.txt is located in the same directory of this Solution.java file
+		InputStream inputstream = new FileInputStream("./src/Challenge/input.txt");
+		@SuppressWarnings("resource")
+		BufferedReader reader=new BufferedReader(new InputStreamReader(inputstream));
+		if(reader.ready()){
+			String[] line = reader.readLine().split(" ");
+			int N = Integer.valueOf(line[0]);
+			int K = Integer.valueOf(line[1]);
+			line = reader.readLine().split(" ");
+			int i = 0;
+			while (i < line.length){
+				System.out.println(line[i]);
+			}
+			
+		}
+	}
+}

@@ -1,0 +1,9 @@
+package Challenge;
+
+public enum Trend {
+	Inc(1), Rem(0), Dec(-1);
+	private int Value;
+	Trend(int v){
+		Value = v;
+	}
+}
