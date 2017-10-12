@@ -1,28 +1,23 @@
-/**
-* The Solution program implements a solution to the challenge from Amne.Inc
-*
-* @author  Chengxi Zhu
-* @version 1.0
-* @since   2017-10-12 
-*/
 package Challenge;
 import java.io.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
-//import java.util.Random;
+import java.util.Random;
 
-public class Solution {
-	public static int[] dp;
-	public static Queue<SubContRange> queueInc = new PriorityQueue<SubContRange>();
-    public static Queue<SubContRange> queueDec = new PriorityQueue<SubContRange>();
-    public static Queue<SubContRange> queueRem = new PriorityQueue<SubContRange>();
+
+
+public class Solution2 {
+	public static int[] result;
+	public static Queue<subContRange> queueInc = new PriorityQueue<subContRange>();
+    public static Queue<subContRange> queueDec = new PriorityQueue<subContRange>();
+    public static Queue<subContRange> queueRem = new PriorityQueue<subContRange>();
     public static LinkedList<Trend> trendList = new LinkedList<Trend>();
 	public static HashMap<Integer, Integer> sumSubArray= new HashMap<Integer, Integer>();
-	public static SubContRange first; 
-	public static SubContRange last; 
-	public static LinkedList<SubContRange> windowMiddle = new LinkedList<SubContRange>();
+	public static subContRange first; 
+	public static subContRange last; 
+	public static LinkedList<subContRange> windowMiddle = new LinkedList<subContRange>();
 	public static int N,K;
 
 	/* Find all subContRanges and store them into queueInc or queueDec or queueRem */
@@ -39,44 +34,43 @@ public class Solution {
         Trend current = null;
         for (int i = 1; i < n; i++) {
         	/* take care of the last subContRange
-        	 * including the situation the last two elements have a same/different trend with the previous one
-        	 * don't miss them
+        	 * including the situation if it is end of two same elements
         	*/
         	if (i == n-1 ){
         		if (nums[i] > nums[i - 1]){
         			if (current == Trend.Inc){ 
-        				queueInc.add(new SubContRange(startInc, i, Trend.Inc)); trendList.addLast(Trend.Inc);
+        				queueInc.add(new subContRange(startInc, i, Trend.Inc)); trendList.addLast(Trend.Inc);
         			} else {
                         if (current == Trend.Rem){
-                            queueRem.add(new SubContRange(startRem, i-1, Trend.Rem)); trendList.addLast(Trend.Rem);
+                            queueRem.add(new subContRange(startRem, i-1, Trend.Rem)); trendList.addLast(Trend.Rem);
                         } else if (current == Trend.Dec){
-                            queueDec.add(new SubContRange(startDec, i-1, Trend.Dec)); trendList.addLast(Trend.Dec);
+                            queueDec.add(new subContRange(startDec, i-1, Trend.Dec)); trendList.addLast(Trend.Dec);
                         }
-        				queueInc.add(new SubContRange(i - 1, i, Trend.Inc)); trendList.addLast(Trend.Inc);
+        				queueInc.add(new subContRange(i - 1, i, Trend.Inc)); trendList.addLast(Trend.Inc);
         			}
         		}
         		if (nums[i] < nums[i - 1] ) {
                     if (current == Trend.Dec){
-                        queueDec.add(new SubContRange(startDec, i, Trend.Dec)); trendList.addLast(Trend.Dec);
+                        queueDec.add(new subContRange(startDec, i, Trend.Dec)); trendList.addLast(Trend.Dec);
                     }else{
                         if (current == Trend.Rem){
-                            queueRem.add(new SubContRange(startRem, i-1, Trend.Rem)); trendList.addLast(Trend.Rem);
+                            queueRem.add(new subContRange(startRem, i-1, Trend.Rem)); trendList.addLast(Trend.Rem);
                         } else if (current == Trend.Inc){
-                            queueInc.add(new SubContRange(startInc, i-1, Trend.Inc)); trendList.addLast(Trend.Inc);
+                            queueInc.add(new subContRange(startInc, i-1, Trend.Inc)); trendList.addLast(Trend.Inc);
                         }
-                        queueDec.add(new SubContRange(i - 1, i, Trend.Dec)); trendList.addLast(Trend.Dec);
+                        queueDec.add(new subContRange(i - 1, i, Trend.Dec)); trendList.addLast(Trend.Dec);
                     }                    
                 }
         		if (nums[i] == nums[i - 1] ) {
                     if (current == Trend.Rem){                    
-                    queueRem.add(new SubContRange(startRem, i, Trend.Rem)); trendList.addLast(Trend.Rem);
+                    queueRem.add(new subContRange(startRem, i, Trend.Rem)); trendList.addLast(Trend.Rem);
                     } else {
                         if (current == Trend.Inc){
-                            queueInc.add(new SubContRange(startInc, i-1, Trend.Inc)); trendList.addLast(Trend.Inc);
+                            queueInc.add(new subContRange(startInc, i-1, Trend.Inc)); trendList.addLast(Trend.Inc);
                         } else if(current == Trend.Dec){
-                            queueDec.add(new SubContRange(startDec, i-1, Trend.Dec)); trendList.addLast(Trend.Dec);
+                            queueDec.add(new subContRange(startDec, i-1, Trend.Dec)); trendList.addLast(Trend.Dec);
                         }
-                        queueRem.add(new SubContRange(i - 1, i, Trend.Rem)); trendList.addLast(Trend.Rem);
+                        queueRem.add(new subContRange(i - 1, i, Trend.Rem)); trendList.addLast(Trend.Rem);
                     }
                 }
         	}
@@ -87,13 +81,13 @@ public class Solution {
                 dpRem[i] = 1;
                 if (dpDec[i - 1] != 1) {  
                 	endDec = i - 1;                	
-                	queueDec.add(new SubContRange(startDec, endDec, Trend.Dec));
+                	queueDec.add(new subContRange(startDec, endDec, Trend.Dec));
                     trendList.addLast(Trend.Dec);
                 	startInc = i - 1;   
                 }
                 if (dpRem[i - 1] != 1) {
                 	endRem = i - 1;					
-					queueRem.add(new SubContRange(startRem, endRem, Trend.Rem));
+					queueRem.add(new subContRange(startRem, endRem, Trend.Rem));
                     trendList.addLast(Trend.Rem);
 					startInc = i - 1;   
                 }            	                	          	            	            
@@ -105,13 +99,13 @@ public class Solution {
                 dpRem[i] = 1;
                 if (dpInc[i - 1] != 1){
                 	endInc = i - 1;                	
-                	queueInc.add(new SubContRange(startInc, endInc, Trend.Inc));
+                	queueInc.add(new subContRange(startInc, endInc, Trend.Inc));
                     trendList.addLast(Trend.Inc);
                 	startDec = i - 1;
                 }
                 if (dpRem[i - 1] != 1) {	
                 	endRem = i - 1;					
-					queueRem.add(new SubContRange(startRem, endRem, Trend.Rem)); 
+					queueRem.add(new subContRange(startRem, endRem, Trend.Rem)); 
                     trendList.addLast(Trend.Rem);
 					startDec = i - 1;
                 }                                	              
@@ -124,13 +118,13 @@ public class Solution {
                 dpDec[i] = 1;
                 if (dpInc[i - 1] != 1){
                 	endInc = i - 1;                	
-                	queueInc.add(new SubContRange(startInc, endInc, Trend.Inc));
+                	queueInc.add(new subContRange(startInc, endInc, Trend.Inc));
                     trendList.addLast(Trend.Inc);
                 	startRem = i - 1;  
                 }                
                 if (dpDec[i - 1] != 1) {  
                 	endDec = i - 1;                	
-                	queueDec.add(new SubContRange(startDec, endDec, Trend.Dec));
+                	queueDec.add(new subContRange(startDec, endDec, Trend.Dec));
                     trendList.addLast(Trend.Dec);
                 	startRem = i - 1;  
                 }                             
@@ -151,9 +145,9 @@ public class Solution {
     }
 
     /* Return and remove the next subRange from among queueInc , queueDec and queueRem */
-    public static SubContRange getNextEle(){
+    public static subContRange getNextEle(){
         Trend t = trendList.getFirst();
-        SubContRange sc;
+        subContRange sc;
         switch(t){
             case Inc: sc = queueInc.poll(); break;
             case Dec: sc = queueDec.poll(); break;
@@ -165,9 +159,9 @@ public class Solution {
     }
 
     /* Return but hold the next subRange from among queueInc , queueDec and queueRem */
-    public static SubContRange peekNextEle(){
+    public static subContRange peekNextEle(){
         Trend t = trendList.getFirst();
-        SubContRange sc;
+        subContRange sc;
         switch(t){
             case Inc: sc = queueInc.peek(); break;
             case Dec: sc = queueDec.peek(); break;
@@ -177,7 +171,7 @@ public class Solution {
         return sc;
     }
 
-    public static void updateResult(SubContRange sr, int actualRange, int dpIndex, boolean add){
+    public static void updateResult(subContRange sr, int actualRange, int resultIndex, boolean add){
         if (sr.trend == Trend.Rem) return;
         if (!sumSubArray.containsKey(actualRange)){
             // put <key, value> to the hashMap
@@ -186,13 +180,13 @@ public class Solution {
         int pre = 1;
         if (sr.trend == Trend.Dec) pre = -1;
         if (add){
-            dp[dpIndex] += pre * sumWithoutOne(actualRange);
+            result[resultIndex] += pre * sumWithoutOne(actualRange);
         } else {
-            dp[dpIndex] -= pre * sumWithoutOne(actualRange);
+            result[resultIndex] -= pre * sumWithoutOne(actualRange);
         }
     }
 
-    public static void updateResult(SubContRange sr, int dpIndex, boolean add){
+    public static void updateResult(subContRange sr, int resultIndex, boolean add){
         if (sr.trend == Trend.Rem) return;
         int actualRange = sr.length;
         if (!sumSubArray.containsKey(actualRange)){
@@ -202,9 +196,9 @@ public class Solution {
         int pre = 1;
         if (sr.trend == Trend.Dec) pre = -1;
         if (add){
-            dp[dpIndex] += pre * sumWithoutOne(actualRange);
+            result[resultIndex] += pre * sumWithoutOne(actualRange);
         } else {
-            dp[dpIndex] -= pre * sumWithoutOne(actualRange);
+            result[resultIndex] -= pre * sumWithoutOne(actualRange);
         }
     }
 
@@ -222,7 +216,7 @@ public class Solution {
         // overall there is at least one element (which we have pooled)
         //assuming all elements are the same. so we need to check here)
         updateResult(first, first.length, 0, true);
-        SubContRange ele = peekNextEle();
+        subContRange ele = peekNextEle();
         int firstIndex = ele.start;
         while (firstIndex < K - 1) { // at most index is K - 2
             ele = getNextEle();
@@ -275,7 +269,7 @@ public class Solution {
     }
 
     public static int getUpdatedValue(int actualRange, boolean fst){
-        SubContRange sr;
+        subContRange sr;
         if (fst) { sr = first; } else { sr = last; }
         if (sr.trend == Trend.Rem) return 0;
         int pre = 1;
@@ -289,7 +283,7 @@ public class Solution {
 
     public static int getUpdatedValue(int i, int K, boolean fst){
         /* Determine it is first or last */
-        SubContRange sr;
+        subContRange sr;
         int actualRange;
         if (fst) { 
             sr = first;
@@ -317,39 +311,40 @@ public class Solution {
 	public static int[] findPattern(int n, int k, int[] price){
 		N = n; K = k;
 		findLength(price);
-        dp = new int [N - K + 1];
+        result = new int [N - K + 1];
         /* Set the first window */
         int[] pair = setFirstWindow(K);
         int firstValue = pair[0]; 
         int lastValue = pair[1];
 
-        // Runtime rt = Runtime.getRuntime();
-        // long prevTotal = 0;
-        // long prevFree = rt.freeMemory();
+        Runtime rt = Runtime.getRuntime();
+        long prevTotal = 0;
+        long prevFree = rt.freeMemory();
         
         for (int i = 1; i < N - K + 1; i++){            
             updateLast(i);
             updateFirst(i);
             int updatedFirstValue = getUpdatedValue(i, K, true);
             int updateLastValue = getUpdatedValue(i, K, false);
-            dp[i] += dp[i-1] + updatedFirstValue + updateLastValue - firstValue - lastValue;
+            result[i] += result[i-1] + updatedFirstValue + updateLastValue - firstValue - lastValue;
             firstValue = updatedFirstValue;
-            lastValue = updateLastValue;            
+            lastValue = updateLastValue;
             
-            // long total = rt.totalMemory();
-            // long free = rt.freeMemory();
-            // if (total != prevTotal || free != prevFree) {
-            //     System.out.println(
-            //         String.format("#%s, Total: %s, Free: %s, Diff: %s",
-            //             i, 
-            //             total,
-            //             free,
-            //             prevFree - free));
-            //     prevTotal = total;
-            //     prevFree = free;
-            // }
+            
+            long total = rt.totalMemory();
+            long free = rt.freeMemory();
+            if (total != prevTotal || free != prevFree) {
+                System.out.println(
+                    String.format("#%s, Total: %s, Free: %s, Diff: %s",
+                        i, 
+                        total,
+                        free,
+                        prevFree - free));
+                prevTotal = total;
+                prevFree = free;
+            }
         }
-		return dp;
+		return result;
 		
 	}
     public static void main(String[] args) throws IOException {
@@ -360,7 +355,7 @@ public class Solution {
         // }
         // testFile.close();
         // we assume that the input.txt is located in the same directory of this Solution.java file
-        InputStream inputstream = new FileInputStream("./src/Challenge/inputChengxi2.txt");
+        InputStream inputstream = new FileInputStream("./src/Challenge/intputChengxi2.txt");
         @SuppressWarnings("resource")
         BufferedReader reader=new BufferedReader(new InputStreamReader(inputstream));
         if(reader.ready()){
@@ -374,11 +369,10 @@ public class Solution {
                 price[i] = Integer.valueOf(line[i]);
                 System.out.println(line[i++]);
             }
-            int[] dp = findPattern(N, K, price);
+            int[] result = findPattern(N, K, price);
             OutputStream output = new BufferedOutputStream(new FileOutputStream("./src/Challenge/output.txt"));
-            for (int j = 0; j < dp.length; j++){
-                output.write((String.valueOf(dp[j])+" ").getBytes());
-                output.write(String.format("%n").getBytes());
+            for (int j = 0; j < result.length; j++){
+                output.write((String.valueOf(result[j])+" ").getBytes());
             }
             output.close();
         }       

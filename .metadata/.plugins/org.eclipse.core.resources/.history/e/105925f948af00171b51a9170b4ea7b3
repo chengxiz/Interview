@@ -360,7 +360,7 @@ public class Solution {
         // }
         // testFile.close();
         // we assume that the input.txt is located in the same directory of this Solution.java file
-        InputStream inputstream = new FileInputStream("./src/Challenge/inputChengxi2.txt");
+        InputStream inputstream = new FileInputStream("./src/Challenge/input.txt");
         @SuppressWarnings("resource")
         BufferedReader reader=new BufferedReader(new InputStreamReader(inputstream));
         if(reader.ready()){

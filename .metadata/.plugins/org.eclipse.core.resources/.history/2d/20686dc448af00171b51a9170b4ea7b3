@@ -334,7 +334,8 @@ public class Solution {
             int updateLastValue = getUpdatedValue(i, K, false);
             dp[i] += dp[i-1] + updatedFirstValue + updateLastValue - firstValue - lastValue;
             firstValue = updatedFirstValue;
-            lastValue = updateLastValue;            
+            lastValue = updateLastValue;
+            
             
             // long total = rt.totalMemory();
             // long free = rt.freeMemory();
@@ -360,7 +361,7 @@ public class Solution {
         // }
         // testFile.close();
         // we assume that the input.txt is located in the same directory of this Solution.java file
-        InputStream inputstream = new FileInputStream("./src/Challenge/inputChengxi2.txt");
+        InputStream inputstream = new FileInputStream("./src/Challenge/input.txt");
         @SuppressWarnings("resource")
         BufferedReader reader=new BufferedReader(new InputStreamReader(inputstream));
         if(reader.ready()){

@@ -334,7 +334,8 @@ public class Solution {
             int updateLastValue = getUpdatedValue(i, K, false);
             dp[i] += dp[i-1] + updatedFirstValue + updateLastValue - firstValue - lastValue;
             firstValue = updatedFirstValue;
-            lastValue = updateLastValue;            
+            lastValue = updateLastValue;
+            
             
             // long total = rt.totalMemory();
             // long free = rt.freeMemory();
