@@ -80,6 +80,7 @@ public class Solution {
                     }
                 }
         	}
+        	/* If the current trend is different from the previous one, then add an ending trend to a queue */
             if (nums[i] > nums[i - 1]) {
             	current = Trend.Inc;
                 dpInc[i] = dpInc[i - 1] + 1;
