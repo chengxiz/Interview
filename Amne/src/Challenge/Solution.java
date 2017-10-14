@@ -19,11 +19,11 @@ public class Solution {
     public static Queue<SubContRange> queueDec = new PriorityQueue<SubContRange>();
     public static Queue<SubContRange> queueRem = new PriorityQueue<SubContRange>();
     public static LinkedList<Trend> trendList = new LinkedList<Trend>();
-	public static HashMap<Integer, Integer> sumSubArray= new HashMap<Integer, Integer>();
-	public static SubContRange first; 
-	public static SubContRange last; 
-	public static LinkedList<SubContRange> windowMiddle = new LinkedList<SubContRange>();
-	public static int N,K;
+    public static HashMap<Integer, Integer> sumSubArray= new HashMap<Integer, Integer>();
+    public static SubContRange first;
+    public static SubContRange last;
+    public static LinkedList<SubContRange> windowMiddle = new LinkedList<SubContRange>();
+    public static int N,K;
 
 	/* Find all subContRanges and store them into queueInc or queueDec or queueRem */
     public static void findLength(int[] nums) {
@@ -38,11 +38,11 @@ public class Solution {
         int startInc = 0; int endInc = 0; int startDec = 0; int endDec = 0;int startRem = 0; int endRem = 0;
         Trend current = null;
         for (int i = 1; i < n; i++) {
-        	/* take care of the last subContRange
-        	 * including the situation the last two elements have a same/different trend with the previous one
-        	 * don't miss them
-        	*/
-        	if (i == n-1 ){
+	        /* take care of the last subContRange
+	    	 * including the situation the last two elements have a same/different trend with the previous one
+	    	 * don't miss them
+	    	*/
+    		if (i == n-1 ){
         		if (nums[i] > nums[i - 1]){
         			if (current == Trend.Inc){ 
         				queueInc.add(new SubContRange(startInc, i, Trend.Inc)); trendList.addLast(Trend.Inc);
